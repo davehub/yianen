@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>À Propos de YIANAN | Votre Marketplace de Confiance</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #ff6b00;
+        --primary-dark: #e55a00;
+        --secondary: #2d3748;
+        --light: #f7fafc;
+        --gray: #718096;
+        --dark: #1a202c;
+        --white: #ffffff;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Arial, sans-serif;
+      }
+
+      body {
+        color: var(--secondary);
+        line-height: 1.6;
+        background-color: var(--light);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+
+      /* Header */
+      .about-header {
+        background: linear-gradient(
+          to right,
+          var(--primary),
+          var(--primary-dark)
+        );
+        color: var(--white);
+        padding: 60px 0 40px;
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .header-text {
+        flex: 1;
+      }
+
+      .header-image {
+        flex: 1;
+        text-align: center;
+      }
+
+      .header-image img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .logo {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+        display: inline-block;
+      }
+
+      .tagline {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        opacity: 0.9;
+      }
+
+      /* Quick Stats */
+      .quick-stats {
+        background: var(--white);
+        padding: 40px 0;
+        box-shadow: var(--shadow);
+        margin-top: -30px;
+        position: relative;
+        z-index: 10;
+        border-radius: 8px;
+      }
+
+      .stats-container {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+
+      .stat {
+        text-align: center;
+        padding: 15px;
+        min-width: 200px;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        display: block;
+      }
+
+      .stat-label {
+        font-size: 1rem;
+        color: var(--gray);
+        margin-top: 5px;
+      }
+
+      /* Sections */
+      .section {
+        padding: 80px 0;
+      }
+
+      .section-white {
+        background: var(--white);
+      }
+
+      .section-light {
+        background: var(--light);
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .section-title h2 {
+        font-size: 2.2rem;
+        color: var(--secondary);
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-title h2:after {
+        content: "";
+        position: absolute;
+        width: 80px;
+        height: 4px;
+        background: var(--primary);
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .section-title p {
+        color: var(--gray);
+        max-width: 700px;
+        margin: 20px auto 0;
+      }
+
+      /* Two Columns Layout */
+      .two-columns {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+      }
+
+      .column {
+        flex: 1;
+      }
+
+      .column img {
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+      }
+
+      .column h3 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: var(--secondary);
+      }
+
+      .column p {
+        margin-bottom: 20px;
+        color: var(--gray);
+      }
+
+      /* Features Grid */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+
+      .feature-card {
+        background: var(--white);
+        padding: 30px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .feature-icon {
+        width: 70px;
+        height: 70px;
+        background: rgba(255, 107, 0, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        color: var(--primary);
+        font-size: 1.8rem;
+      }
+
+      .feature-card h4 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: var(--secondary);
+      }
+
+      /* Services */
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .service-card {
+        background: var(--white);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      .service-icon {
+        background: var(--primary);
+        color: var(--white);
+        padding: 25px;
+        text-align: center;
+        font-size: 2.5rem;
+      }
+
+      .service-content {
+        padding: 25px;
+      }
+
+      .service-content h4 {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        color: var(--secondary);
+      }
+
+      /* Team */
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+      }
+
+      .team-member {
+        background: var(--white);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        text-align: center;
+      }
+
+      .member-photo {
+        height: 200px;
+        background-color: #e2e8f0;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .member-info {
+        padding: 20px;
+      }
+
+      .member-info h4 {
+        font-size: 1.3rem;
+        margin-bottom: 5px;
+        color: var(--secondary);
+      }
+
+      .member-info p {
+        color: var(--gray);
+        margin-bottom: 15px;
+      }
+
+      /* CTA Section */
+      .cta-section {
+        background: linear-gradient(
+          to right,
+          var(--primary),
+          var(--primary-dark)
+        );
+        color: var(--white);
+        text-align: center;
+        padding: 80px 0;
+      }
+
+      .cta-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .cta-section p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto 30px;
+        opacity: 0.9;
+      }
+
+      .btn {
+        display: inline-block;
+        background: var(--white);
+        color: var(--primary);
+        padding: 14px 32px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+      }
+
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Footer */
+      .about-footer {
+        background: var(--dark);
+        color: var(--white);
+        padding: 60px 0 30px;
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+      }
+
+      .footer-column {
+        flex: 1;
+        min-width: 200px;
+        margin-bottom: 30px;
+      }
+
+      .footer-column h4 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: var(--white);
+      }
+
+      .footer-column ul {
+        list-style: none;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 10px;
+      }
+
+      .footer-column ul li a {
+        color: #a0aec0;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-column ul li a:hover {
+        color: var(--white);
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        color: var(--white);
+        text-decoration: none;
+        transition: background 0.3s;
+      }
+
+      .social-links a:hover {
+        background: var(--primary);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #a0aec0;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .header-content {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .header-text {
+          margin-bottom: 30px;
+        }
+
+        .two-columns {
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .section {
+          padding: 60px 0;
+        }
+
+        .stats-container {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .stat {
+          margin-bottom: 20px;
+        }
+
+        .section-title h2 {
+          font-size: 1.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header Section -->
+    <header class="about-header">
+      <div class="container">
+        <div class="header-content">
+          <div class="header-text">
+            <h1 class="logo">YIANAN</h1>
+            <p class="tagline">
+              Votre marketplace de confiance en Afrique et au-delà
+            </p>
+            <p>
+              Depuis 2018, YIANAN connecte des millions d'acheteurs et vendeurs
+              à travers une plateforme sécurisée, fiable et facile
+              d'utilisation.
+            </p>
+          </div>
+          <div class="header-image">
+            <!-- Placeholder for image -->
+            <div
+              style="
+                background-color: rgba(255, 255, 255, 0.2);
+                height: 300px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <i
+                class="fas fa-shopping-bag"
+                style="font-size: 120px; opacity: 0.7"
+              ></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Quick Stats -->
+    <section class="quick-stats">
+      <div class="container">
+        <div class="stats-container">
+          <div class="stat">
+            <span class="stat-number">5M+</span>
+            <span class="stat-label">Clients Satisfaits</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">50K+</span>
+            <span class="stat-label">Vendeurs Actifs</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">1M+</span>
+            <span class="stat-label">Produits Disponibles</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">10+</span>
+            <span class="stat-label">Pays Desservis</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Mission -->
+    <section class="section section-light">
+      <div class="container">
+        <div class="section-title">
+          <h2>Notre Mission</h2>
+          <p>Simplifier et sécuriser le commerce en ligne pour tous</p>
+        </div>
+
+        <div class="two-columns">
+          <div class="column">
+            <!-- Placeholder for image -->
+            <div
+              style="
+                background-color: #e2e8f0;
+                height: 400px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #718096;
+              "
+            >
+              Image: Illustration mission YIANAN
+            </div>
+          </div>
+          <div class="column">
+            <h3>Connecter l'Afrique grâce à la technologie</h3>
+            <p>
+              Notre mission est de construire la plateforme e-commerce la plus
+              fiable et accessible d'Afrique, en levant les barrières qui
+              limitent le commerce en ligne sur le continent.
+            </p>
+            <p>Nous nous engageons à :</p>
+            <ul style="list-style-type: none; margin: 20px 0">
+              <li
+                style="
+                  margin-bottom: 10px;
+                  padding-left: 20px;
+                  position: relative;
+                "
+              >
+                <i
+                  class="fas fa-check"
+                  style="color: var(--primary); position: absolute; left: 0"
+                ></i>
+                Offrir une expérience d'achat sécurisée et transparente
+              </li>
+              <li
+                style="
+                  margin-bottom: 10px;
+                  padding-left: 20px;
+                  position: relative;
+                "
+              >
+                <i
+                  class="fas fa-check"
+                  style="color: var(--primary); position: absolute; left: 0"
+                ></i>
+                Développer des solutions de paiement adaptées aux réalités
+                locales
+              </li>
+              <li
+                style="
+                  margin-bottom: 10px;
+                  padding-left: 20px;
+                  position: relative;
+                "
+              >
+                <i
+                  class="fas fa-check"
+                  style="color: var(--primary); position: absolute; left: 0"
+                ></i>
+                Construire un réseau logistique fiable et étendu
+              </li>
+              <li
+                style="
+                  margin-bottom: 10px;
+                  padding-left: 20px;
+                  position: relative;
+                "
+              >
+                <i
+                  class="fas fa-check"
+                  style="color: var(--primary); position: absolute; left: 0"
+                ></i>
+                Soutenir la croissance des entreprises africaines
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Features -->
+    <section class="section section-white">
+      <div class="container">
+        <div class="section-title">
+          <h2>Pourquoi Choisir YIANAN</h2>
+          <p>
+            Découvrez les avantages qui font de nous la marketplace de référence
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h4>Achat Sécurisé</h4>
+            <p>
+              Paiement protégé et système de résolution de litiges pour shopper
+              en toute confiance.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shipping-fast"></i>
+            </div>
+            <h4>Livraison Rapide</h4>
+            <p>
+              Réseau logistique étendu pour une livraison dans les délais à
+              travers l'Afrique.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-headset"></i>
+            </div>
+            <h4>Support 7j/7</h4>
+            <p>
+              Équipe dédiée disponible pour répondre à toutes vos questions et
+              résoudre vos problèmes.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-undo-alt"></i>
+            </div>
+            <h4>Retours Faciles</h4>
+            <p>
+              Politique de retour simplifiée pour vous garantir une satisfaction
+              totale.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="section section-light">
+      <div class="container">
+        <div class="section-title">
+          <h2>Nos Services</h2>
+          <p>Une gamme complète de solutions pour acheteurs et vendeurs</p>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-store"></i>
+            </div>
+            <div class="service-content">
+              <h4>Marketplace</h4>
+              <p>
+                Plateforme complète permettant aux vendeurs d'atteindre des
+                millions de clients et aux acheteurs de découvrir une variété
+                exceptionnelle de produits.
+              </p>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-truck"></i>
+            </div>
+            <div class="service-content">
+              <h4>YIANAN Logistics</h4>
+              <p>
+                Service de logistique intégré pour le stockage, l'emballage et
+                la livraison des commandes à travers notre réseau étendu.
+              </p>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-money-bill-wave"></i>
+            </div>
+            <div class="service-content">
+              <h4>YIANAN Pay</h4>
+              <p>
+                Solution de paiement sécurisée avec multiples options adaptées
+                aux marchés africains, incluant le paiement mobile et à la
+                livraison.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <h2>Rejoignez la Révolution YIANAN</h2>
+        <p>
+          Que vous soyez acheteur ou vendeur, découvrez comment YIANAN peut
+          transformer votre expérience du commerce en ligne.
+        </p>
+        <a href="#" class="btn">Commencer Maintenant</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="about-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h4>YIANAN</h4>
+            <p style="color: #a0aec0; margin-bottom: 20px">
+              La marketplace de confiance en Afrique.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+
+          <div class="footer-column">
+            <h4>Entreprise</h4>
+            <ul>
+              <li><a href="#">À Propos de Nous</a></li>
+              <li><a href="#">Carrières</a></li>
+              <li><a href="#">Presse</a></li>
+              <li><a href="#">Blog</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="#">YIANAN Marketplace</a></li>
+              <li><a href="#">YIANAN Logistics</a></li>
+              <li><a href="#">YIANAN Pay</a></li>
+              <li><a href="#">Devenir Vendeur</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="#">Centre d'Aide</a></li>
+              <li><a href="#">Contactez-Nous</a></li>
+              <li><a href="#">Politique de Retour</a></li>
+              <li><a href="#">Guide de Sécurité</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="copyright">
+          <p>&copy; 2023 YIANAN. Tous droits réservés.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Simple animation for elements when they come into view
+      document.addEventListener("DOMContentLoaded", function () {
+        const animateOnScroll = function () {
+          const elements = document.querySelectorAll(
+            ".feature-card, .service-card, .stat"
+          );
+
+          elements.forEach((element) => {
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
+
+            if (elementTop < window.innerHeight - elementVisible) {
+              element.style.opacity = "1";
+              element.style.transform = "translateY(0)";
+            }
+          });
+        };
+
+        // Set initial state
+        const elementsToAnimate = document.querySelectorAll(
+          ".feature-card, .service-card, .stat"
+        );
+        elementsToAnimate.forEach((el) => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(20px)";
+          el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        });
+
+        // Listen for scroll events
+        window.addEventListener("scroll", animateOnScroll);
+        // Initial check
+        animateOnScroll();
+      });
+    </script>
+  </body>
+</html>
