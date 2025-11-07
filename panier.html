@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panier</title>
+</head>
+<body>
+    
+
+    <script>
+        
+        // Base de données simulée
+        const database = {
+            // Utilisateurs
+            users: JSON.parse(localStorage.getItem('users')) || [
+                {
+                    id: 1,
+                    name: "Admin User",
+                    email: "admin@example.com",
+                    phone: "+33123456789",
+                    password: "password123",
+                    orders: []
+                }
+            ],
+            
+            // Produits
+            products: [
+                { 
+                    id: 1, 
+                    name: 'iPhone 14 Pro', 
+                    price: 1259.99, 
+                    image: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80', 
+                    description: 'Dernier smartphone Apple avec écran Dynamic Island',
+                    category: 'smartphone',
+                    featured: true,
+                    details: {
+                        brand: 'Apple',
+                        screen: '6.1 pouces Super Retina XDR',
+                        storage: '128GB, 256GB, 512GB, 1TB',
+                        camera: 'Système triple caméra: 48MP + 12MP + 12MP',
+                        battery: 'Jusqu\'à 23 heures de lecture vidéo',
+                        colors: ['Argent', 'Or', 'Graphite', 'Bleu sierra'],
+                        specifications: [
+                            'Chip A16 Bionic',
+                            'iOS 16',
+                            'Résistance à l\'eau IP68',
+                            'Face ID',
+                            '5G'
+                        ]
+                    },
+                    images: [
+                        'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1589492477829-5e65395b66cc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80'
+                    ]
+                },
+                { 
+                    id: 2, 
+                    name: 'MacBook Pro 16"', 
+                    price: 2499.99, 
+                    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80', 
+                    description: 'Ordinateur portable professionnel avec puce M2',
+                    category: 'laptop',
+                    featured: true,
+                    details: {
+                        brand: 'Apple',
+                        screen: '16.2 pouces Liquid Retina XDR',
+                        storage: '512GB, 1TB, 2TB, 4TB, 8TB',
+                        processor: 'Apple M2 Pro ou M2 Max',
+                        memory: '16GB, 32GB, 64GB, 96GB unifiée',
+                        battery: 'Jusqu\'à 22 heures de lecture vidéo',
+                        colors: ['Gris sidéral', 'Argent'],
+                        specifications: [
+                            'Écran Liquid Retina XDR',
+                            'Jusqu\'à 96 Go de mémoire unifiée',
+                            'Jusqu\'à 8 To de SSD',
+                            'Ports: HDMI, SDXC, MagSafe 3, Thunderbolt 4',
+                            'Wi-Fi 6E et Bluetooth 5.3'
+                        ]
+                    },
+                    images: [
+                        'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80'
+                    ]
+                },
+                { 
+                    id: 3, 
+                    name: 'AirPods Pro', 
+                    price: 279.99, 
+                    image: 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80', 
+                    description: 'Écouteurs sans fil avec réduction de bruit active',
+                    category: 'accessory',
+                    featured: false,
+                    details: {
+                        brand: 'Apple',
+                        battery: 'Jusqu\'à 6 heures d\'écoute (avec réduction de bruit active)',
+                        connectivity: 'Bluetooth 5.3',
+                        charging: 'Boîtier de charge MagSafe, Lightning ou sans fil',
+                        features: ['Réduction de bruit active', 'Mode Transparence', 'Audio spatial', 'Résistance à la sueur et à l\'eau'],
+                        colors: ['Blanc'],
+                        specifications: [
+                            'Chip H2',
+                            'Réduction de bruit active',
+                            'Audio spatial personnalisé',
+                            'Boîtier de charge MagSafe',
+                            'Autonomie: jusqu\'à 30 heures avec le boîtier'
+                        ]
+                    },
+                    images: [
+                        'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1626840070612-108a0c0c0f6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1599660663713-71baca8c6c68?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80'
+                    ]
+                },
+                { 
+                    id: 4, 
+                    name: 'Samsung Galaxy S23', 
+                    price: 959.99, 
+                    image: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80', 
+                    description: 'Smartphone Android haut de gamme avec appareil photo avancé',
+                    category: 'smartphone',
+                    featured: false,
+                    details: {
+                        brand: 'Samsung',
+                        screen: '6.1 pouces Dynamic AMOLED 2X',
+                        storage: '128GB, 256GB',
+                        camera: 'Triple caméra: 50MP + 10MP + 12MP',
+                        battery: '3900 mAh',
+                        colors: ['Noir', 'Crème', 'Vert', 'Lavande'],
+                        specifications: [
+                            'Processeur Snapdragon 8 Gen 2',
+                            'Android 13 avec One UI 5.1',
+                            'Résistance à l\'eau IP68',
+                            'Recharge sans fil',
+                            '5G'
+                        ]
+                    },
+                    images: [
+                        'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80'
+                    ]
+                },
+                { 
+                    id: 5, 
+                    name: 'iPad Air', 
+                    price: 749.99, 
+                    image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80', 
+                    description: 'Tablette polyvalente avec puce M1 et écran Liquid Retina',
+                    category: 'laptop',
+                    featured: true,
+                    details: {
+                        brand: 'Apple',
+                        screen: '10.9 pouces Liquid Retina',
+                        storage: '64GB, 256GB',
+                        processor: 'Chip M1',
+                        connectivity: 'Wi-Fi, Wi-Fi + Cellular',
+                        colors: ['Gris sidéral', 'Rose', 'Bleu', 'Violet', 'Starlight'],
+                        specifications: [
+                            'Chip M1 avec Neural Engine',
+                            'Écran Liquid Retina 10.9 pouces',
+                            'Caméra avant 12MP ultra grand angle',
+                            'Touch ID',
+                            'Compatibilité Apple Pencil (2e génération)'
+                        ]
+                    },
+                    images: [
+                        'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1561154464-82e9adf32764?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1542751110-97427bbecf20?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80'
+                    ]
+                },
+                { 
+                    id: 6, 
+                    name: 'Apple Watch Series 8', 
+                    price: 429.99, 
+                    image: 'https://images.unsplash.com/photo-1579586337278-3f436a8d8470?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80', 
+                    description: 'Montre connectée avec suivi santé avancé',
+                    category: 'accessory',
+                    featured: false,
+                    details: {
+                        brand: 'Apple',
+                        screen: 'Retina LTPO OLED',
+                        sizes: ['41mm', '45mm'],
+                        connectivity: 'GPS, GPS + Cellular',
+                        battery: 'Jusqu\'à 18 heures',
+                        colors: ['Minuit', 'Starlight', 'Argent', 'Rouge', 'Bleu'],
+                        specifications: [
+                            'Capteur de température',
+                            'Détection des accidents et appels d\'urgence',
+                            'Suivi du cycle menstruel',
+                            'Écran Always-On',
+                            'Résistance à l\'eau 50m'
+                        ]
+                    },
+                    images: [
+                        'https://images.unsplash.com/photo-1579586337278-3f436a8d8470?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1551816230-ef5deaed4a26?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1434493652601-87eae636e30f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80'
+                    ]
+                }
+            ],
+            
+            // Commandes
+            orders: JSON.parse(localStorage.getItem('orders')) || []
+        };
+
+        // Variables globales
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let currentProductDetail = null;
+
+        // Éléments DOM
+        const homePage = document.getElementById('home-page');
+        const loginPage = document.getElementById('login-page');
+        const registerPage = document.getElementById('register-page');
+        const cartPage = document.getElementById('cart-page');
+        const profilePage = document.getElementById('profile-page');
+        const productDetailPage = document.getElementById('product-detail-page');
+        const userInfo = document.getElementById('user-info');
+        const authButtons = document.getElementById('auth-buttons');
+        const userName = document.getElementById('user-name');
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const cartIcon = document.getElementById('cart-icon');
+        const logo = document.getElementById('logo');
+        const backToHome = document.getElementById('back-to-home');
+        const backToLogin = document.getElementById('back-to-login');
+        const continueShopping = document.getElementById('continue-shopping');
+        const backToHomeFromProfile = document.getElementById('back-to-home-from-profile');
+        const emailLoginForm = document.getElementById('email-login-form');
+        const phoneLoginForm = document.getElementById('phone-login-form');
+        const verifyCodeSection = document.getElementById('verify-code-section');
+        const verifyCodeBtn = document.getElementById('verify-code-btn');
+        const registerForm = document.getElementById('register-form');
+        const productsGrid = document.getElementById('products-grid');
+        const cartItems = document.getElementById('cart-items');
+        const cartCount = document.getElementById('cart-count');
+        const cartSubtotal = document.getElementById('cart-subtotal');
+        const shippingCost = document.getElementById('shipping-cost');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const searchInput = document.getElementById('search-input');
+        const categoryFilter = document.getElementById('category-filter');
+        const sortBy = document.getElementById('sort-by');
+        const profileName = document.getElementById('profile-name');
+        const profileEmail = document.getElementById('profile-email');
+        const profilePhone = document.getElementById('profile-phone');
+        const orderHistory = document.getElementById('order-history');
+        const alertDiv = document.getElementById('alert');
+        const alertMessage = document.getElementById('alert-message');
+        const alertIcon = document.getElementById('alert-icon');
+        const closeAlert = document.getElementById('close-alert');
+        const loadingOverlay = document.getElementById('loading-overlay');
+
+        // Initialisation de l'application
+        function initApp() {
+            // Écouteurs d'événements pour la navigation
+            loginBtn.addEventListener('click', () => showPage('login'));
+            registerBtn.addEventListener('click', () => showPage('register'));
+            logoutBtn.addEventListener('click', handleLogout);
+            cartIcon.addEventListener('click', () => showPage('cart'));
+            logo.addEventListener('click', () => showPage('home'));
+            backToHome.addEventListener('click', () => showPage('home'));
+            backToLogin.addEventListener('click', () => showPage('login'));
+            continueShopping.addEventListener('click', () => showPage('home'));
+            backToHomeFromProfile.addEventListener('click', () => showPage('home'));
+            closeAlert.addEventListener('click', hideAlert);
+
+            // Écouteurs d'événements pour les formulaires
+            emailLoginForm.addEventListener('submit', handleEmailLogin);
+            phoneLoginForm.addEventListener('submit', handlePhoneLogin);
+            verifyCodeBtn.addEventListener('click', handleVerifyCode);
+            registerForm.addEventListener('submit', handleRegister);
+            checkoutBtn.addEventListener('click', handleCheckout);
+
+            // Écouteurs d'événements pour les filtres
+            searchInput.addEventListener('input', filterProducts);
+            categoryFilter.addEventListener('change', filterProducts);
+            sortBy.addEventListener('change', filterProducts);
+
+            // Charger les produits
+            loadProducts();
+
+            // Mettre à jour l'interface utilisateur
+            updateUI();
+
+            // Vérifier si l'utilisateur est connecté
+            if (currentUser) {
+                showAlert(`Bienvenue, ${currentUser.name} !`, 'success');
+            }
+        }
+
+        // Afficher une page et masquer les autres
+        function showPage(page) {
+            homePage.classList.add('hidden');
+            loginPage.classList.add('hidden');
+            registerPage.classList.add('hidden');
+            cartPage.classList.add('hidden');
+            profilePage.classList.add('hidden');
+            productDetailPage.classList.add('hidden');
+
+            if (page === 'home') {
+                homePage.classList.remove('hidden');
+                filterProducts();
+            } else if (page === 'login') {
+                loginPage.classList.remove('hidden');
+            } else if (page === 'register') {
+                registerPage.classList.remove('hidden');
+            } else if (page === 'cart') {
+                cartPage.classList.remove('hidden');
+                renderCart();
+            } else if (page === 'profile') {
+                profilePage.classList.remove('hidden');
+                renderProfile();
+            } else if (page === 'product-detail') {
+                productDetailPage.classList.remove('hidden');
+            }
+        }
+
+        // Mettre à jour l'interface utilisateur
+        function updateUI() {
+            if (currentUser) {
+                userName.textContent = currentUser.name;
+                userInfo.classList.remove('hidden');
+                authButtons.classList.add('hidden');
+                
+                // Ajouter le bouton profil si pas déjà présent
+                if (!document.getElementById('profile-btn')) {
+                    const profileBtn = document.createElement('button');
+                    profileBtn.id = 'profile-btn';
+                    profileBtn.className = 'bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded flex items-center ml-2 transition-colors';
+                    profileBtn.innerHTML = '<i class="fas fa-user mr-1"></i> Profil';
+                    profileBtn.addEventListener('click', () => showPage('profile'));
+                    userInfo.appendChild(profileBtn);
+                }
+            } else {
+                userInfo.classList.add('hidden');
+                authButtons.classList.remove('hidden');
+            }
+            
+            updateCartUI();
+        }
+
+        // Gérer la connexion par email
+        function handleEmailLogin(e) {
+            e.preventDefault();
+            showLoading(true);
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // Simuler un délai de requête
+            setTimeout(() => {
+                const user = database.users.find(u => u.email === email && u.password === password);
+                
+                if (user) {
+                    currentUser = user;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    showLoading(false);
+                    showAlert('Connexion réussie!', 'success');
+                    showPage('home');
+                    updateUI();
+                } else {
+                    showLoading(false);
+                    showAlert('Email ou mot de passe incorrect.', 'error');
+                }
+            }, 1000);
+        }
+
+        // Gérer la connexion par téléphone
+        function handlePhoneLogin(e) {
+            e.preventDefault();
+            showLoading(true);
+
+            const phoneNumber = document.getElementById('phone-number').value;
+
+            // Simuler l'envoi du code
+            setTimeout(() => {
+                const user = database.users.find(u => u.phone === phoneNumber);
+                
+                if (user) {
+                    showLoading(false);
+                    verifyCodeSection.classList.remove('hidden');
+                    showAlert('Code de vérification envoyé! (Simulation: utilisez 123456)', 'success');
+                } else {
+                    showLoading(false);
+                    showAlert('Aucun compte trouvé avec ce numéro.', 'error');
+                }
+            }, 1000);
+        }
+
+        // Vérifier le code de confirmation
+        function handleVerifyCode() {
+            showLoading(true);
+            const code = document.getElementById('verification-code').value;
+
+            // Simuler la vérification du code
+            setTimeout(() => {
+                if (code === '123456') {
+                    const phoneNumber = document.getElementById('phone-number').value;
+                    const user = database.users.find(u => u.phone === phoneNumber);
+                    
+                    if (user) {
+                        currentUser = user;
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        showLoading(false);
+                        showAlert('Connexion réussie!', 'success');
+                        showPage('home');
+                        updateUI();
+                        verifyCodeSection.classList.add('hidden');
+                    } else {
+                        showLoading(false);
+                        showAlert('Erreur lors de la connexion.', 'error');
+                    }
+                } else {
+                    showLoading(false);
+                    showAlert('Code incorrect. Utilisez 123456 pour la simulation.', 'error');
+                }
+            }, 1000);
+        }
+
+        // Gérer l'inscription
+        function handleRegister(e) {
+            e.preventDefault();
+            showLoading(true);
+
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const phone = document.getElementById('register-phone').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password !== confirmPassword) {
+                showLoading(false);
+                showAlert('Les mots de passe ne correspondent pas.', 'error');
+                return;
+            }
+
+            // Vérifier si l'email existe déjà
+            if (database.users.find(u => u.email === email)) {
+                showLoading(false);
+                showAlert('Un compte avec cet email existe déjà.', 'error');
+                return;
+            }
+
+            // Simuler la création de compte
+            setTimeout(() => {
+                const newUser = {
+                    id: database.users.length + 1,
+                    name,
+                    email,
+                    phone,
+                    password,
+                    orders: []
+                };
+                
+                database.users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(database.users));
+                
+                currentUser = newUser;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                showLoading(false);
+                showAlert('Inscription réussie!', 'success');
+                showPage('home');
+                updateUI();
+            }, 1000);
+        }
+
+        // Gérer la déconnexion
+        function handleLogout() {
+            showLoading(true);
+            
+            // Simuler un délai de déconnexion
+            setTimeout(() => {
+                currentUser = null;
+                localStorage.removeItem('currentUser');
+                showLoading(false);
+                showAlert('Déconnexion réussie!', 'success');
+                updateUI();
+            }, 500);
+        }
+
+        // Charger les produits
+        function loadProducts() {
+            renderProducts(database.products);
+        }
+
+        // Filtrer et trier les produits
+        function filterProducts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const category = categoryFilter.value;
+            const sort = sortBy.value;
+            
+            let filteredProducts = database.products.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm) || 
+                                     product.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = category === 'all' || product.category === category;
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            // Trier les produits
+            if (sort === 'name') {
+                filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (sort === 'price-asc') {
+                filteredProducts.sort((a, b) => a.price - b.price);
+            } else if (sort === 'price-desc') {
+                filteredProducts.sort((a, b) => b.price - a.price);
+            }
+            
+            renderProducts(filteredProducts);
+        }
+
+        // Afficher les produits
+        function renderProducts(products) {
+            productsGrid.innerHTML = '';
+            
+            if (products.length === 0) {
+                productsGrid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class="fas fa-search text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-700">Aucun produit trouvé</h3>
+                        <p class="text-gray-500 mt-2">Essayez de modifier vos critères de recherche</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'bg-white rounded-lg shadow-md overflow-hidden product-card';
+                productCard.innerHTML = `
+                    <div class="relative">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover product-image cursor-pointer" data-id="${product.id}">
+                        ${product.featured ? '<span class="absolute top-2 right-2 bg-indigo-500 text-white text-xs font-bold px-2 py-1 rounded">Populaire</span>' : ''}
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 cursor-pointer hover:text-indigo-600 transition-colors view-product-detail" data-id="${product.id}">${product.name}</h3>
+                        <p class="text-gray-600 text-sm mt-1">${product.description}</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-xl font-bold text-indigo-600">${product.price.toFixed(2)} €</span>
+                            <div class="flex space-x-2">
+                                <button class="view-details bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg flex items-center transition-colors" data-id="${product.id}">
+                                    <i class="fas fa-eye mr-1"></i> Détails
+                                </button>
+                                <button class="add-to-cart bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-2 rounded-lg flex items-center transition-colors" data-id="${product.id}">
+                                    <i class="fas fa-cart-plus mr-1"></i> Ajouter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+
+            // Ajouter les écouteurs d'événements pour les boutons "Ajouter au panier"
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = parseInt(e.target.closest('.add-to-cart').getAttribute('data-id'));
+                    addToCart(productId);
+                });
+            });
+
+            // Ajouter les écouteurs d'événements pour les boutons "Détails"
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = parseInt(e.target.closest('.view-details').getAttribute('data-id'));
+                    showProductDetail(productId);
+                });
+            });
+
+            // Ajouter les écouteurs d'événements pour les images et titres de produits
+            document.querySelectorAll('.view-product-detail, .product-image').forEach(element => {
+                element.addEventListener('click', (e) => {
+                    const productId = parseInt(e.target.getAttribute('data-id'));
+                    showProductDetail(productId);
+                });
+            });
+        }
+
+        // Afficher les détails d'un produit
+        function showProductDetail(productId) {
+            const product = database.products.find(p => p.id === productId);
+            
+            if (!product) {
+                showAlert('Produit non trouvé', 'error');
+                return;
+            }
+            
+            currentProductDetail = product;
+            
+            // Générer le HTML pour les détails du produit
+            productDetailPage.innerHTML = `
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Images du produit -->
+                    <div class="md:w-1/2">
+                        <div class="mb-4">
+                            <img src="${product.images[0]}" alt="${product.name}" class="w-full h-96 object-cover rounded-lg product-image" id="main-product-image">
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            ${product.images.map((image, index) => `
+                                <img src="${image}" alt="${product.name} - Vue ${index + 1}" 
+                                     class="w-full h-24 object-cover rounded cursor-pointer border-2 ${index === 0 ? 'border-indigo-500' : 'border-transparent'} product-thumbnail" 
+                                     data-image="${image}">
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <!-- Informations du produit -->
+                    <div class="md:w-1/2">
+                        <button id="back-to-products" class="mb-4 text-indigo-600 hover:underline font-medium flex items-center transition-colors">
+                            <i class="fas fa-arrow-left mr-2"></i> Retour aux produits
+                        </button>
+                        
+                        <h1 class="text-3xl font-bold text-gray-800 mb-2">${product.name}</h1>
+                        <p class="text-gray-600 mb-4">${product.description}</p>
+                        
+                        <div class="mb-6">
+                            <span class="text-2xl font-bold text-indigo-600">${product.price.toFixed(2)} €</span>
+                            <span class="ml-2 text-green-600 font-medium">En stock</span>
+                        </div>
+                        
+                        <!-- Options d'achat -->
+                        <div class="mb-6">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <span class="font-semibold">Quantité:</span>
+                                <div class="flex items-center border border-gray-300 rounded">
+                                    <button class="quantity-btn px-3 py-1 text-gray-600 hover:bg-gray-100" id="decrease-quantity">-</button>
+                                    <span class="px-4 py-1" id="product-quantity">1</span>
+                                    <button class="quantity-btn px-3 py-1 text-gray-600 hover:bg-gray-100" id="increase-quantity">+</button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex space-x-3">
+                                <button id="add-to-cart-detail" class="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium flex items-center transition-colors flex-1 justify-center">
+                                    <i class="fas fa-cart-plus mr-2"></i> Ajouter au panier
+                                </button>
+                                <button id="buy-now" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium flex items-center transition-colors flex-1 justify-center">
+                                    <i class="fas fa-bolt mr-2"></i> Acheter maintenant
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Caractéristiques du produit -->
+                        <div class="mb-6">
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Caractéristiques</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                ${product.details.specifications.map(spec => `
+                                    <div class="flex items-start">
+                                        <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                        <span>${spec}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <!-- Détails supplémentaires -->
+                        <div class="mb-6">
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Détails du produit</h3>
+                            <div class="space-y-2">
+                                ${product.details.brand ? `<div class="flex"><span class="font-medium w-32">Marque:</span><span>${product.details.brand}</span></div>` : ''}
+                                ${product.details.screen ? `<div class="flex"><span class="font-medium w-32">Écran:</span><span>${product.details.screen}</span></div>` : ''}
+                                ${product.details.storage ? `<div class="flex"><span class="font-medium w-32">Stockage:</span><span>${product.details.storage}</span></div>` : ''}
+                                ${product.details.camera ? `<div class="flex"><span class="font-medium w-32">Appareil photo:</span><span>${product.details.camera}</span></div>` : ''}
+                                ${product.details.battery ? `<div class="flex"><span class="font-medium w-32">Batterie:</span><span>${product.details.battery}</span></div>` : ''}
+                                ${product.details.colors ? `<div class="flex"><span class="font-medium w-32">Couleurs:</span><span>${product.details.colors.join(', ')}</span></div>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Ajouter les écouteurs d'événements pour la page de détails
+            document.getElementById('back-to-products').addEventListener('click', () => showPage('home'));
+            document.getElementById('add-to-cart-detail').addEventListener('click', () => {
+                const quantity = parseInt(document.getElementById('product-quantity').textContent);
+                addToCart(product.id, quantity);
+            });
+            document.getElementById('buy-now').addEventListener('click', () => {
+                const quantity = parseInt(document.getElementById('product-quantity').textContent);
+                addToCart(product.id, quantity);
+                showPage('cart');
+            });
+            document.getElementById('decrease-quantity').addEventListener('click', () => {
+                const quantityElement = document.getElementById('product-quantity');
+                let quantity = parseInt(quantityElement.textContent);
+                if (quantity > 1) {
+                    quantityElement.textContent = quantity - 1;
+                }
+            });
+            document.getElementById('increase-quantity').addEventListener('click', () => {
+                const quantityElement = document.getElementById('product-quantity');
+                let quantity = parseInt(quantityElement.textContent);
+                quantityElement.textContent = quantity + 1;
+            });
+            
+            // Ajouter les écouteurs d'événements pour les miniatures d'images
+            document.querySelectorAll('.product-thumbnail').forEach(thumbnail => {
+                thumbnail.addEventListener('click', (e) => {
+                    const imageSrc = e.target.getAttribute('data-image');
+                    document.getElementById('main-product-image').src = imageSrc;
+                    
+                    // Mettre à jour la bordure des miniatures
+                    document.querySelectorAll('.product-thumbnail').forEach(img => {
+                        img.classList.remove('border-indigo-500');
+                        img.classList.add('border-transparent');
+                    });
+                    e.target.classList.remove('border-transparent');
+                    e.target.classList.add('border-indigo-500');
+                });
+            });
+            
+            showPage('product-detail');
+        }
+
+        // Ajouter un produit au panier
+        function addToCart(productId, quantity = 1) {
+            const product = database.products.find(p => p.id === productId);
+            
+            if (product) {
+                const existingItem = cart.find(item => item.id === productId);
+                
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.push({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        quantity: quantity
+                    });
+                }
+                
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartUI();
+                showAlert(`${product.name} ajouté au panier!`, 'success');
+            }
+        }
+
+        // Mettre à jour l'interface utilisateur du panier
+        function updateCartUI() {
+            // Mettre à jour le compteur du panier
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        // Afficher le contenu du panier
+        function renderCart() {
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-shopping-cart text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-700">Votre panier est vide</h3>
+                        <p class="text-gray-500 mt-2">Ajoutez des produits pour continuer</p>
+                    </div>
+                `;
+                document.getElementById('checkout-btn').disabled = true;
+                return;
+            }
+            
+            document.getElementById('checkout-btn').disabled = false;
+            
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'flex items-center border-b border-gray-200 py-4';
+                cartItem.innerHTML = `
+                    <div class="flex-shrink-0 w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="ml-4 flex-grow">
+                        <h3 class="font-semibold text-gray-800">${item.name}</h3>
+                        <p class="text-gray-600">${item.price.toFixed(2)} €</p>
+                    </div>
+                    <div class="flex items-center">
+                        <button class="decrease-quantity bg-gray-200 hover:bg-gray-300 rounded-l px-3 py-1 text-gray-700 quantity-btn" data-id="${item.id}">-</button>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-800">${item.quantity}</span>
+                        <button class="increase-quantity bg-gray-200 hover:bg-gray-300 rounded-r px-3 py-1 text-gray-700 quantity-btn" data-id="${item.id}">+</button>
+                        <button class="remove-item text-red-500 hover:text-red-700 ml-4 transition-colors" data-id="${item.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                cartItems.appendChild(cartItem);
+            });
+            
+            // Calculer les frais de livraison
+            const shipping = subtotal > 0 ? 4.99 : 0;
+            const total = subtotal + shipping;
+            
+            // Mettre à jour les totaux
+            cartSubtotal.textContent = `${subtotal.toFixed(2)} €`;
+            shippingCost.textContent = `${shipping.toFixed(2)} €`;
+            cartTotal.textContent = `${total.toFixed(2)} €`;
+            
+            // Ajouter les écouteurs d'événements pour les boutons du panier
+            document.querySelectorAll('.increase-quantity').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = parseInt(e.target.closest('button').getAttribute('data-id'));
+                    updateQuantity(productId, 1);
+                });
+            });
+            
+            document.querySelectorAll('.decrease-quantity').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = parseInt(e.target.closest('button').getAttribute('data-id'));
+                    updateQuantity(productId, -1);
+                });
+            });
+            
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = parseInt(e.target.closest('button').getAttribute('data-id'));
+                    removeFromCart(productId);
+                });
+            });
+        }
+
+        // Mettre à jour la quantité d'un produit dans le panier
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            
+            if (item) {
+                item.quantity += change;
+                
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartUI();
+                    renderCart();
+                }
+            }
+        }
+
+        // Retirer un produit du panier
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+            renderCart();
+            showAlert('Produit retiré du panier', 'info');
+        }
+
+        // Gérer la commande
+        function handleCheckout() {
+            if (cart.length === 0) {
+                showAlert('Votre panier est vide', 'error');
+                return;
+            }
+            
+            if (!currentUser) {
+                showAlert('Veuillez vous connecter pour passer commande', 'error');
+                showPage('login');
+                return;
+            }
+            
+            showLoading(true);
+            
+            // Simuler le traitement de la commande
+            setTimeout(() => {
+                // Créer une nouvelle commande
+                const order = {
+                    id: database.orders.length + 1,
+                    userId: currentUser.id,
+                    items: [...cart],
+                    total: parseFloat(cartTotal.textContent),
+                    date: new Date().toISOString(),
+                    status: 'confirmed'
+                };
+                
+                // Ajouter la commande à la base de données
+                database.orders.push(order);
+                localStorage.setItem('orders', JSON.stringify(database.orders));
+                
+                // Ajouter la commande à l'historique de l'utilisateur
+                currentUser.orders.push(order.id);
+                const userIndex = database.users.findIndex(u => u.id === currentUser.id);
+                database.users[userIndex] = currentUser;
+                localStorage.setItem('users', JSON.stringify(database.users));
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Vider le panier
+                cart = [];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                
+                showLoading(false);
+                showAlert('Commande passée avec succès!', 'success');
+                updateCartUI();
+                renderCart();
+                showPage('home');
+            }, 2000);
+        }
+
+        // Afficher le profil utilisateur
+        function renderProfile() {
+            if (!currentUser) {
+                showPage('login');
+                return;
+            }
+            
+            profileName.textContent = currentUser.name;
+            profileEmail.textContent = currentUser.email;
+            profilePhone.textContent = currentUser.phone || 'Non renseigné';
+            
+            // Afficher l'historique des commandes
+            const userOrders = database.orders.filter(order => order.userId === currentUser.id);
+            
+            if (userOrders.length === 0) {
+                orderHistory.innerHTML = '<p class="text-gray-500 text-center">Aucune commande passée pour le moment</p>';
+            } else {
+                orderHistory.innerHTML = '';
+                userOrders.forEach(order => {
+                    const orderElement = document.createElement('div');
+                    orderElement.className = 'mb-4 p-3 bg-white rounded-lg border border-gray-200';
+                    orderElement.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h4 class="font-semibold">Commande #${order.id}</h4>
+                                <p class="text-sm text-gray-600">${new Date(order.date).toLocaleDateString('fr-FR')}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold">${order.total.toFixed(2)} €</p>
+                                <span class="inline-block px-2 py-1 text-xs rounded-full ${order.status === 'confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${order.status}</span>
+                            </div>
+                        </div>
+                    `;
+                    orderHistory.appendChild(orderElement);
+                });
+            }
+        }
+
+        // Afficher un message d'alerte
+        function showAlert(message, type) {
+            alertMessage.textContent = message;
+            
+            // Définir la couleur et l'icône en fonction du type
+            if (type === 'success') {
+                alertDiv.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-lg bg-green-500 text-white max-w-sm';
+                alertIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+            } else if (type === 'error') {
+                alertDiv.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-lg bg-red-500 text-white max-w-sm';
+                alertIcon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+            } else {
+                alertDiv.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-lg bg-blue-500 text-white max-w-sm';
+                alertIcon.innerHTML = '<i class="fas fa-info-circle"></i>';
+            }
+            
+            alertDiv.classList.remove('hidden');
+            
+            // Masquer automatiquement après 5 secondes
+            setTimeout(() => {
+                hideAlert();
+            }, 5000);
+        }
+
+        // Masquer l'alerte
+        function hideAlert() {
+            alertDiv.classList.add('hidden');
+        }
+
+        // Afficher/masquer l'overlay de chargement
+        function showLoading(show) {
+            if (show) {
+                loadingOverlay.classList.remove('hidden');
+                document.body.classList.add('loading');
+            } else {
+                loadingOverlay.classList.add('hidden');
+                document.body.classList.remove('loading');
+            }
+        }
+
+        // Initialiser l'application lorsque la page est chargée
+        document.addEventListener('DOMContentLoaded', initApp);
+    
+    </script>
+</body>
+</html>
