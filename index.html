@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yianen - Votre boutique en ligne</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+   
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-indigo-600 flex items-center cursor-pointer" id="logo">
+                <i class="fas fa-shopping-bag mr-2"></i>yianen
+            </h1>
+            <div class="flex items-center space-x-4">
+                <button id="cart-icon" class="relative p-2 text-gray-700 hover:text-indigo-600 transition-colors">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">0</span>
+                </button>
+                <div class="flex space-x-2">
+                    <a href="index.html">
+                        <button id="home-btn" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded flex items-center transition-colors">
+                            <i class="fas fa-home mr-1"></i> Accueil
+                        </button>
+                    </a>
+                    <a href="about.html">
+                        <button id="about-btn" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded flex items-center transition-colors">
+                            <i class="fas fa-info-circle mr-1"></i> À propos
+                        </button>
+                    </a>
+                    <a href="contact.html">
+                        <button id="contact-btn" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded flex items-center transition-colors" >
+                            <i class="fas fa-phone mr-1"></i> Contact
+                        </button>
+                    </a>
+                    <a href="products.html">
+                        <button id="product-btn" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded flex items-center transition-colors">
+                            <i class="fas fa-shopping-bag mr-2 "></i>Produits
+                        </button>
+                    </a>
+                    
+                </div>
+
+                
+                <div id="user-info" class="hidden">
+                    <span id="user-name" class="text-gray-700 mr-4"></span>
+                    <button id="logout-btn" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded flex items-center transition-colors">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Déconnexion
+                    </button>
+                </div>
+
+             
+
+                
+            </div>
+        </div>
+    </nav>
+    <div id="auth-buttons" class="flex space-x-2">
+        <button id="login-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-1 rounded flex items-center transition-colors">
+            <i class="fas fa-sign-in-alt mr-1"></i> Connexion
+        </button>
+        <button id="register-btn" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded flex items-center transition-colors">
+            <i class="fas fa-user-plus mr-1"></i> Inscription
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">TechShop</h3>
+                    <p class="text-gray-400">Votre boutique en ligne de produits high-tech. Nous proposons les dernières innovations au meilleur prix.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Liens rapides</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Accueil</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Produits</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">À propos</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center"><i class="fas fa-map-marker-alt mr-2"></i> 123 Rue de la Tech, Paris</li>
+                        <li class="flex items-center"><i class="fas fa-phone mr-2"></i> +33 1 23 45 67 89</li>
+                        <li class="flex items-center"><i class="fas fa-envelope mr-2"></i> contact@techshop.fr</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 TechShop. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
